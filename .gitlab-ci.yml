@@ -2,13 +2,23 @@ master:
   script: echo
   only:
     - master
+  except:
+    - schedules
 
 not_master:
   script: echo
   except:
     - master
+    - schedules
 
 web_iu:
   script: echo
   only:
     - web
+  except:
+    - schedules
+
+schedule:
+  script: echo
+  only:
+    - schedules

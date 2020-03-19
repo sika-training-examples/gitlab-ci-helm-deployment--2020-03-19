@@ -15,15 +15,19 @@ build:
     - docker build -t $IMAGE .
     - docker push $IMAGE
 
-deploy staging:
-  stage: staging
-  script:
+.kubectl_setup: &kubectl_setup
+  before_script:
     - kubectl config set-cluster default --server="$KUBE_URL" --insecure-skip-tls-verify=true
     - kubectl config set-credentials admin --token="$KUBE_TOKEN"
     - kubectl config set-context default --cluster=default --namespace=$KUBE_NS --user=admin
     - kubectl config use-context default
     - kubectl create ns $KUBE_NS && true
 
+
+deploy staging:
+  <<: *kubectl_setup
+  stage: staging
+  script:
     - helm repo add ondrejsika https://helm.oxs.cz
     - helm upgrade --install $CI_PROJECT_PATH_SLUG-$CI_COMMIT_REF_SLUG ondrejsika/one-image --set host=$CI_PROJECT_PATH_SLUG-$CI_COMMIT_REF_SLUG.$BASE_DOMAIN --set image=$IMAGE
   environment:
@@ -32,16 +36,11 @@ deploy staging:
     on_stop: stop staging
 
 stop staging:
+  <<: *kubectl_setup
   stage: staging
   when: manual
   environment:
     name: dev/$CI_COMMIT_REF_SLUG
     action: stop
   script:
-    - kubectl config set-cluster default --server="$KUBE_URL" --insecure-skip-tls-verify=true
-    - kubectl config set-credentials admin --token="$KUBE_TOKEN"
-    - kubectl config set-context default --cluster=default --namespace=$KUBE_NS --user=admin
-    - kubectl config use-context default
-    - kubectl create ns $KUBE_NS && true
-
     - helm uninstall $CI_PROJECT_PATH_SLUG-$CI_COMMIT_REF_SLUG

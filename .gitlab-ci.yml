@@ -1,6 +1,17 @@
-job:
-  variables:
-    GIT_CLEAN_FLAGS: -ffdx -e now
+stages:
+  - build
+  - test
+
+build:
+  stage: build
   script:
-    - date >> now
-    - cat now
+    - mkdir -p out
+    - echo '<h1>Hello World!</h1>' > out/index.html
+  artifacts:
+    paths:
+      - out
+
+test:
+  stage: test
+  script:
+    - cat out/index.html

@@ -32,6 +32,7 @@ deploy staging:
     on_stop: stop staging
 
 stop staging:
+  stage: staging
   when: manual
   environment:
     name: dev/$CI_COMMIT_REF_SLUG

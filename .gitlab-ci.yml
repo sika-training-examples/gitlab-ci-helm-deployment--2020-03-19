@@ -1,17 +1,2 @@
-Build A:
-  script: echo Cuild A ...
-  only:
-    variables:
-      - $BUILD_A
-
-Build B:
-  script: echo Cuild B ...
-  only:
-    variables:
-      - $BUILD_B
-
-default:
-  script: echo Cuild B ...
-  except:
-    variables:
-      - $NO_DEFAULT
+job:
+  script: env

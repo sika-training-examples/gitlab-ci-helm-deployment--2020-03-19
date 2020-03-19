@@ -1,28 +1,20 @@
 # .gitlab-ci.yml
 
 stages:
-  - build
-  - test
+  - stage1
+  - stage2
+  - stage3
+
 
 job1:
-  stage: build
+  stage: stage1
+  script: echo hello
+
+job2:
+  stage: stage2
   script: 'false'
+  allow_failure: true
 
-test:
-  stage: test
-  script: echo Run test ...
-
-deploy:
-  stage: test
-  script: echo Run deploy ...
-  when: manual
-
-diagnostics:
-  stage: test
-  script: echo Run diagnostics ...
-  when: on_failure
-
-reporting:
-  stage: test
-  script: echo Run CI reporting ...
-  when: always
+job3:
+  stage: stage3
+  script: echo hello

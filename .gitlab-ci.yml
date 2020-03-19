@@ -14,6 +14,14 @@ job1:
   stage: build
   script: echo Job1!
 
+job5:
+  stage: build
+  script: sleep 20
+
+job4:
+  stage: build
+  script: echo Job1!
+
 job2:
   stage: test
   script: echo Job2! && false

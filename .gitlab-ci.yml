@@ -4,31 +4,25 @@ stages:
   - build
   - test
 
-before_script:
-  - echo Global before
-
-after_script:
-  - echo Global after
-
 job1:
   stage: build
-  script: 'false'
+  script: echo hello
 
-job5:
-  stage: build
-  script: sleep 20
-
-job4:
-  stage: build
-  script: echo Job1!
-
-job2:
+test:
   stage: test
-  script: echo Job2! && false
+  script: echo Run test ...
 
-job3:
+deploy:
   stage: test
-  before_script:
-    - echo Local before
-  after_script: []
-  script: echo Job3!
+  script: echo Run deploy ...
+  when: manual
+
+diagnostics:
+  stage: test
+  script: echo Run diagnostics ...
+  when: on_failure
+
+reporting:
+  stage: test
+  script: echo Run CI reporting ...
+  when: always

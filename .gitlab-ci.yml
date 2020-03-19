@@ -12,7 +12,7 @@ after_script:
 
 job1:
   stage: build
-  script: echo Job1!
+  script: false
 
 job5:
   stage: build

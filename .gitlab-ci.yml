@@ -1,8 +1,14 @@
-test:
-  when: manual
-  script: echo test ... && false
+master:
+  script: echo
+  only:
+    - master
 
-test2:
-  when: manual
-  script: echo test ... && false
-  allow_failure: false
+not_master:
+  script: echo
+  except:
+    - master
+
+web_iu:
+  script: echo
+  only:
+    - web

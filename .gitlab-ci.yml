@@ -2,3 +2,4 @@ job:
   script:
     - echo Hello World!
     - cat README.md
+    - date

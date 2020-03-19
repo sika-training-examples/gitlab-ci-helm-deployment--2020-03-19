@@ -1,3 +1,5 @@
+image: ondrejsika/ci
+
 stages:
   - build
   - staging
@@ -9,3 +11,14 @@ build:
     - docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
     - docker build -t $CI_REGISTRY_IMAGE .
     - docker push $CI_REGISTRY_IMAGE
+
+deploy staging:
+  script:
+    - kubectl config set-cluster default --server="$KUBE_URL" --insecure-skip-tls-verify=true
+    - kubectl config set-credentials admin --token="$KUBE_TOKEN"
+    - kubectl config set-context default --cluster=default --namespace=$KUBE_NS --user=admin
+    - kubectl config use-context default
+    - kubectl create ns $KUBE_NS && true
+
+    - helm repo add ondrejsika https://helm.oxs.cz
+    - helm upgrade --install $CI_PROJECT_PATH_SLUG ondrejsika/one-image --set host=$CI_PROJECT_PATH_SLUG.$BASE_DOMAIN

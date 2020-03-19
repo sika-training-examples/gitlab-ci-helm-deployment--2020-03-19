@@ -23,3 +23,6 @@ deploy staging:
 
     - helm repo add ondrejsika https://helm.oxs.cz
     - helm upgrade --install $CI_PROJECT_PATH_SLUG ondrejsika/one-image --set host=$CI_PROJECT_PATH_SLUG.$BASE_DOMAIN
+  environment:
+    name: dev/$CI_COMMIT_REF_SLUG
+    url: https://$CI_PROJECT_PATH_SLUG.$BASE_DOMAIN

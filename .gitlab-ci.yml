@@ -1,11 +1,17 @@
 Build A:
   script: echo Cuild A ...
   only:
-    changes:
-      - a/**
+    variables:
+      - $BUILD_A
 
 Build B:
   script: echo Cuild B ...
   only:
-    changes:
-      - b/**
+    variables:
+      - $BUILD_B
+
+default:
+  script: echo Cuild B ...
+  except:
+    variables:
+      - $NO_DEFAULT

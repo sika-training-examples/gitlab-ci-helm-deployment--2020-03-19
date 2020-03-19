@@ -1,8 +1,6 @@
 job:
-  cache:
-    key: ${CI_COMMIT_REF_SLUG}
-    paths:
-      - now
+  variables:
+    GIT_CLEAN_FLAGS: -ffdx -e now
   script:
     - date >> now
     - cat now

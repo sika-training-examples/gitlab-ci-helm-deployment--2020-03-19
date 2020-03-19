@@ -25,10 +25,10 @@ deploy staging:
     - kubectl create ns $KUBE_NS && true
 
     - helm repo add ondrejsika https://helm.oxs.cz
-    - helm upgrade --install $CI_PROJECT_PATH_SLUG ondrejsika/one-image --set host=$CI_PROJECT_PATH_SLUG.$BASE_DOMAIN --set image=$IMAGE
+    - helm upgrade --install $CI_PROJECT_PATH_SLUG-$CI_COMMIT_REF_SLUG ondrejsika/one-image --set host=$CI_PROJECT_PATH_SLUG-$CI_COMMIT_REF_SLUG.$BASE_DOMAIN --set image=$IMAGE
   environment:
     name: dev/$CI_COMMIT_REF_SLUG
-    url: https://$CI_PROJECT_PATH_SLUG.$BASE_DOMAIN
+    url: https://$CI_PROJECT_PATH_SLUG-$CI_COMMIT_REF_SLUG.$BASE_DOMAIN
     on_stop: stop staging
 
 stop staging:
@@ -44,4 +44,4 @@ stop staging:
     - kubectl config use-context default
     - kubectl create ns $KUBE_NS && true
 
-    - helm uninstall $CI_PROJECT_PATH_SLUG
+    - helm uninstall $CI_PROJECT_PATH_SLUG-$CI_COMMIT_REF_SLUG

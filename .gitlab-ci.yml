@@ -11,12 +11,15 @@ after_script:
   - echo Global after
 
 job1:
+  stage: build
   script: echo Job1!
 
 job2:
+  stage: test
   script: echo Job2! && false
 
 job3:
+  stage: test
   before_script:
     - echo Local before
   after_script: []

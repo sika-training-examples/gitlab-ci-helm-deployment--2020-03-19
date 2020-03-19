@@ -1,3 +1,0 @@
-# ondrejsika
-
-sdfwfr3f

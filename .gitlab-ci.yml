@@ -1,5 +1,7 @@
-job:
+job1:
+  script: echo Hello World!
+
+job2:
   script:
     - echo Hello World!
-    - cat README.md
-    - date
+    - echo Ahoj Svete!

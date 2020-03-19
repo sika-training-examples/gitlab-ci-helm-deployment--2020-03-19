@@ -4,6 +4,12 @@ stages:
   - build
   - test
 
+before_script:
+  - echo Global before
+
+after_script:
+  - echo Global after
+
 build:
   stage: build
   script: echo Build!

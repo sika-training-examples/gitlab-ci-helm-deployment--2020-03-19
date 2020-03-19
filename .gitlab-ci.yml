@@ -1,24 +1,11 @@
-master:
-  script: echo
+Build A:
+  script: echo Cuild A ...
   only:
-    - master
-  except:
-    - schedules
+    changes:
+      - a/**
 
-not_master:
-  script: echo
-  except:
-    - master
-    - schedules
-
-web_iu:
-  script: echo
+Build B:
+  script: echo Cuild B ...
   only:
-    - web
-  except:
-    - schedules
-
-schedule:
-  script: echo
-  only:
-    - schedules
+    changes:
+      - b/**

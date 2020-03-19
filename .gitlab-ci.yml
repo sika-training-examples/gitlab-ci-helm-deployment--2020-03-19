@@ -5,12 +5,15 @@ stages:
   - staging
   - production
 
+variables:
+  IMAGE: $CI_REGISTRY_IMAGE:${CI_COMMIT_REF_SLUG}-${CI_COMMIT_SHORT_SHA}-${CI_PIPELINE_ID}
+
 build:
   stage: build
   script:
     - docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
-    - docker build -t $CI_REGISTRY_IMAGE .
-    - docker push $CI_REGISTRY_IMAGE
+    - docker build -t $IMAGE .
+    - docker push $IMAGE
 
 deploy staging:
   stage: staging
@@ -22,7 +25,7 @@ deploy staging:
     - kubectl create ns $KUBE_NS && true
 
     - helm repo add ondrejsika https://helm.oxs.cz
-    - helm upgrade --install $CI_PROJECT_PATH_SLUG ondrejsika/one-image --set host=$CI_PROJECT_PATH_SLUG.$BASE_DOMAIN
+    - helm upgrade --install $CI_PROJECT_PATH_SLUG ondrejsika/one-image --set host=$CI_PROJECT_PATH_SLUG.$BASE_DOMAIN --set image=$IMAGE
   environment:
     name: dev/$CI_COMMIT_REF_SLUG
     url: https://$CI_PROJECT_PATH_SLUG.$BASE_DOMAIN

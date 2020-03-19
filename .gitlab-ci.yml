@@ -12,7 +12,7 @@ after_script:
 
 job1:
   stage: build
-  script: false
+  script: 'false'
 
 job5:
   stage: build

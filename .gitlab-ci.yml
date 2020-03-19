@@ -13,6 +13,7 @@ build:
     - docker push $CI_REGISTRY_IMAGE
 
 deploy staging:
+  stage: staging
   script:
     - kubectl config set-cluster default --server="$KUBE_URL" --insecure-skip-tls-verify=true
     - kubectl config set-credentials admin --token="$KUBE_TOKEN"

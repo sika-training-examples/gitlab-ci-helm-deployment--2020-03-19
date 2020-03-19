@@ -4,9 +4,14 @@ stages:
 build_js:
   image: node
   stage: build
+  variables:
+    GIT_CLEAN_FLAGS: -ffdx -e node_modules
   script:
     - yarn
     - yarn static
+  artifacts:
+    paths:
+      - out/**/*
 
 build_docker:
   image: docker

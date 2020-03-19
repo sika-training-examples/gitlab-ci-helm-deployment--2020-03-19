@@ -10,14 +10,14 @@ before_script:
 after_script:
   - echo Global after
 
-build:
-  stage: build
-  script: echo Build!
+job1:
+  script: echo Job1!
 
-test1:
-  stage: test
-  script: echo Test1!
+job2:
+  script: echo Job2! && false
 
-test2:
-  stage: test
-  script: echo Test2!
+job3:
+  before_script:
+    - echo Local before
+  after_script: []
+  script: echo Job3!

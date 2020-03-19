@@ -22,6 +22,7 @@ build:
     - kubectl config set-context default --cluster=default --namespace=$KUBE_NS --user=admin
     - kubectl config use-context default
     - kubectl create ns $KUBE_NS && true
+    - helm repo add ondrejsika https://helm.oxs.cz
 
 
 deploy staging:
@@ -44,3 +45,15 @@ stop staging:
     action: stop
   script:
     - helm uninstall $CI_PROJECT_PATH_SLUG-$CI_COMMIT_REF_SLUG
+
+deploy production:
+  <<: *kubectl_setup
+  stage: production
+  when: manual
+  only:
+    - master
+  script:
+    - helm upgrade --install $CI_PROJECT_PATH_SLUG ondrejsika/one-image --set host=ondrejsika.$BASE_DOMAIN --set image=$IMAGE
+  environment:
+    name: prod
+    url: https://ondrejsika.$BASE_DOMAIN
